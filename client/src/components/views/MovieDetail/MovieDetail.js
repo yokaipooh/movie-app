@@ -3,6 +3,7 @@ import { Row, Button } from "antd";
 import axios from "axios";
 import _ from "lodash";
 
+
 import Comments from "./Sections/Comments";
 import LikeDislikes from "./Sections/LikeDislikes";
 import { API_URL, API_KEY, IMAGE_BASE_URL, IMAGE_SIZE } from "../../Config";
@@ -11,6 +12,7 @@ import MainImage from "../../views/LandingPage/Sections/MainImage";
 import MovieInfo from "./Sections/MovieInfo";
 import Favorite from "./Sections/Favorite";
 import MovieTrailer from './MovieTrailer'
+import MovieWatcher from './MovieWatcher'
 
 function MovieDetailPage(props) {
   const movieId = props.match.params.movieId;
@@ -100,6 +102,7 @@ function MovieDetailPage(props) {
       <div style={{ width: "90%", margin: "1rem auto" }}>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <MovieTrailer video={video}/>
+        <MovieWatcher />
           <Favorite
             movieInfo={Movie}
             movieId={movieId}
