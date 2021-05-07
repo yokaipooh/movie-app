@@ -8,7 +8,6 @@ import {
   IMAGE_SIZE,
   POSTER_SIZE,
 } from "../../../Config";
-import GridCard from "../../../commons/GridCards";
 
 const { Title } = Typography;
 
@@ -27,30 +26,37 @@ function SideBar() {
     fetch(endpoint)
       .then((result) => result.json())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         // console.log('Movies',...Movies)
         // console.log('result',...result.results)
-        setMovies([...Movies, ...result.results]);
+        setMovies([...result.results]);
+        console.log("Movies", ...result.results);
       }, setLoading(false))
       .catch((error) => console.error("Error:", error));
   };
 
   return (
-    <div style={{ width:"300", height:"100vh" }}>
-      <Title level={2}> Top rate movies </Title>
+    <>
+      <Title level={4}> Top Rated Movies </Title>
       <hr />
-      <Row gutter={[16, 16]}>
-        {Movies &&
-          Movies.map((movie, index) => (
-            <React.Fragment key={index}>
-              <GridCard
-                movieId={movie.id}
-                movieName={movie.title}
+      {Movies &&
+        Movies.map((movie, index) => (
+          <React.Fragment key={index}>
+            <a href={"/movie/${movie.id}"}>
+              <img
+                style={{ maxWidth: "100px" }}
+                alt={movie.title}
+                src={
+                  movie.poster_path
+                    ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
+                    : null
+                }
               />
-            </React.Fragment>
-          ))}
-      </Row>
-    </div>
+              <h4>{movie.title}</h4>
+            </a>
+          </React.Fragment>
+        ))}
+    </>
   );
 }
 

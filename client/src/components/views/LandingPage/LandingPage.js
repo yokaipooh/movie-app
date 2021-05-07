@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Typography, Row } from "antd";
+import { Typography, Row, Button } from "antd";
 import Sticky from "react-stickynode";
 import {
   API_URL,
@@ -11,9 +11,10 @@ import {
 import MainImage from "./Sections/MainImage";
 import SideBar from "./Sections/SideBar";
 import GridCard from "../../commons/GridCards";
-import './SideBar.css';
+import "./SideBar.css";
 import { Carousel } from "react-responsive-carousel";
 import styles from "react-responsive-carousel/lib/styles/carousel.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 const { Title } = Typography;
 function LandingPage() {
   const buttonRef = useRef(null);
@@ -28,20 +29,21 @@ function LandingPage() {
     fetchMovies(endpoint);
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  }, []);
-
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  // }, []);
   const fetchMovies = (endpoint) => {
     fetch(endpoint)
       .then((result) => result.json())
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         // console.log('Movies',...Movies)
         // console.log('result',...result.results)
         setMovies([...Movies, ...result.results]);
+        // setMovies(JSON.parse(window.localStorage.getItem('movies')));
         setMainMovieImage(MainMovieImage || result.results);
         setCurrentPage(result.page);
+        window.localStorage.setItem(`${CurrentPage}`, JSON.stringify(Movies));
       }, setLoading(false))
       .catch((error) => console.error("Error:", error));
   };
@@ -55,84 +57,91 @@ function LandingPage() {
     }`;
     fetchMovies(endpoint);
   };
-
-  const handleScroll = () => {
-    const windowHeight =
-      "innerHeight" in window
-        ? window.innerHeight
-        : document.documentElement.offsetHeight;
-    const body = document.body;
-    const html = document.documentElement;
-    const docHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
-    );
-    const windowBottom = windowHeight + window.pageYOffset;
-    if (windowBottom >= docHeight - 1) {
-      // loadMoreItems()
-      console.log("clicked");
-      buttonRef.current.click();
-    }
-  };
+  
+  // const handleScroll = () => {
+  //   const windowHeight =
+  //     "innerHeight" in window
+  //       ? window.innerHeight
+  //       : document.documentElement.offsetHeight;
+  //   const body = document.body;
+  //   const html = document.documentElement;
+  //   const docHeight = Math.max(
+  //     body.scrollHeight,
+  //     body.offsetHeight,
+  //     html.clientHeight,
+  //     html.scrollHeight,
+  //     html.offsetHeight
+  //   );
+  //   const windowBottom = windowHeight + window.pageYOffset;
+  //   if (windowBottom >= docHeight - 1) {
+  //     // loadMoreItems()
+  //     console.log("clicked");
+  //     buttonRef.current.click();
+  //   }
+  // };
 
   return (
-    <div style={{ width: "100%", margin: "0" }}>
-      <Carousel
-        showThumbs={false}
-        infiniteLoop={true}
-        transitionTime={100}
-        autoPlay={true}
-        stopOnHover={true}
-      >
-        {MainMovieImage &&
-          MainMovieImage.map((moviecover, index) => (
-            <MainImage
-              index={index}
-              image={`${IMAGE_BASE_URL}${IMAGE_SIZE}${moviecover.backdrop_path}`}
-              title={moviecover.original_title}
-              text={moviecover.overview}
-            />
-          ))}
-      </Carousel>
-
-      <div style={{ width: "85%", margin: "1rem auto" }}>
-        <Title level={2}> Movies by latest </Title>
-        <hr />
-        <Row gutter={[16, 16]}>
-          {Movies &&
-            Movies.map((movie, index) => (
-              <React.Fragment key={index}>
-                <GridCard
-                  image={
-                    movie.poster_path
-                      ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
-                      : null
-                  }
-                  movieId={movie.id}
-                  movieName={movie.title}
-                />
-              </React.Fragment>
+    <div style={{ backgroundColor:"#081b27", color:"white"}}>
+      <div style={{ width: "100%", margin: "0" }}>
+        <Carousel
+          showThumbs={false}
+          infiniteLoop={true}
+          transitionTime={100}
+          autoPlay={true}
+          stopOnHover={true}
+        >
+          {MainMovieImage &&
+            MainMovieImage.map((moviecover, index) => (
+              <MainImage
+                key={index}
+                image={`${IMAGE_BASE_URL}${IMAGE_SIZE}${moviecover.backdrop_path}`}
+                title={moviecover.original_title}
+                text={moviecover.overview}
+              />
             ))}
-        </Row>
-
-        <br />
-        {Loading && <div>Loading...</div>}
-
-        <br />
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <button ref={buttonRef} className="loadMore" onClick={loadMoreItems}>
-            Load More
-          </button>
-        </div>
+        </Carousel>
       </div>
-      <div id="sidebar1" class="sidebar" aria-label="Main sidebar containing navigation links and some information" aria-hidden="true">
-  <div class="sidebar__content">
-  <SideBar />
-  </div>
-</div>
+      <div className="container" style={{ maxWidth:"fit-content", margin:"10px 10px", color:"white" }}>
+      <div className="row" style={{ display: "flex" }}>
+          <div className="col-10">
+            <Title level={2}> Movies by latest </Title>
+            <hr />
+            <Row gutter={[16, 16]}>
+              {Movies &&
+                Movies.map((movie, index) => (
+                  <React.Fragment key={index}>
+                    <GridCard
+                      image={
+                        movie.poster_path
+                          ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
+                          : null
+                      }
+                      movieId={movie.id}
+                      movieName={movie.title}
+                    />
+                  </React.Fragment>
+                ))}
+            </Row>
+
+            <br />
+            {Loading && <div>Loading...</div>}
+
+            <br />
+            <div style={{ display: "flex", justifyContent: "center", color:"black" }}>
+              <Button
+                ref={buttonRef}
+                className="loadMore"
+                onClick={loadMoreItems}
+              >
+                Load More
+              </Button>
+            </div>
+          </div>
+          <div className="col-2" style={{ }}>
+            <SideBar />
+          </div>
+      </div>
+      </div>
     </div>
   );
 }

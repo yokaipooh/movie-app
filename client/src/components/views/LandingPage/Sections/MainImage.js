@@ -26,6 +26,7 @@ function MainImage(props) {
             maxWidth: "500px",
             bottom: "2rem",
             marginLeft: "2rem",
+
           }}
         >
           <Title style={{ color: "white" }} level={2}>
