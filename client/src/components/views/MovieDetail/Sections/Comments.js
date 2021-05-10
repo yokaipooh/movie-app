@@ -1,11 +1,28 @@
 import React, { useState } from 'react'
 import { Button, Input, Typography, } from 'antd';
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Rating from '@material-ui/lab/Rating';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Box from '@material-ui/core/Box';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+
 import { useSelector } from 'react-redux';
 import SingleComment from './SingleComment';
 import ReplyComment from './ReplyComment';
 const { TextArea } = Input;
 const { Title } = Typography;
+
+const StyledRating = withStyles({
+    iconFilled: {
+      color: '#ff6d75',
+    },
+    iconHover: {
+      color: '#ff3d47',
+    },
+  })(Rating);
+
 function Comments(props) {
     const user = useSelector(state => state.user)
     const [Comment, setComment] = useState("")
@@ -61,6 +78,17 @@ function Comments(props) {
                     Be the first one who shares your thought about this movie
                 </div>
             }
+            {/* Rating component */}
+            <Box component="fieldset" mb={3} borderColor="transparent">
+        <Typography component="legend">Custom icon and color</Typography>
+        <StyledRating
+          name="customized-color"
+          defaultValue={2}
+          getLabelText={(value) => `${value} Heart${value !== 1 ? 's' : ''}`}
+          precision={0.5}
+          icon={<FavoriteIcon fontSize="inherit" />}
+        />
+      </Box>
 
             {/* Root Comment Form */}
             <form style={{ display: 'flex' }} onSubmit={onSubmit}>

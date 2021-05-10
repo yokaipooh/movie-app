@@ -30,10 +30,10 @@ function GridCards(props) {
     );
   } else {
     return (
-      <Col key={key} lg={6} md={8} xs={24} className='movie' style={{ backgroundColor:"#081b27", maxHeight: "500px", color:"white", border:"none", margin:"2px 0.25px" }}>
+      <Col key={key} lg={6} md={8} xs={24} className='movie' style={{ display:"flex", backgroundColor:"#081b27", color:"white", border:"none", margin:"2px 0.25px", flexDirection:"column", padding:"4px",width:"325px" }}>
         <Card >
                 <div >
-                    <CardContent style={{ maxHeight: "480px", color:"white" }}>
+                    <CardContent style={{ maxHeight: "480px", color:"white", padding:"4px" }}>
                       <div style={{position: 'relative'}} style={{ backgroundColor:"#081b27",maxHeight: "480px", color:"white" }} >
                       <a href={`/movie/${movieId}`}>
                         <CardMedia
