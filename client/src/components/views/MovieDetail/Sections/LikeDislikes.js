@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Tooltip, Icon } from 'antd';
+import { Tooltip } from 'antd';
 import Axios from 'axios';
 import { useSelector } from 'react-redux';
+import Icon from '@ant-design/icons';
 
 function LikeDislikes(props) {
     const user = useSelector(state => state.user)

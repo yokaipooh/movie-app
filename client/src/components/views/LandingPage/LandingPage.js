@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Typography, Row, Button } from "antd";
-import Sticky from "react-stickynode";
 import {
   API_URL,
   API_KEY,
@@ -38,7 +37,7 @@ function LandingPage() {
       .then((result) => {
         // console.log(result);
         // console.log('Movies',...Movies)
-        // console.log('result',...result.results)
+        console.log('result',result.results)
         setMovies([...Movies, ...result.results]);
         // setMovies(JSON.parse(window.localStorage.getItem('movies')));
         setMainMovieImage(MainMovieImage || result.results);

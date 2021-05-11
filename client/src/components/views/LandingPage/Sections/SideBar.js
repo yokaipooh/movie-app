@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Icon } from "antd";
 import { Typography, Row } from "antd";
 import {
   API_URL,
@@ -30,7 +29,7 @@ function SideBar() {
         // console.log('Movies',...Movies)
         // console.log('result',...result.results)
         setMovies([...result.results]);
-        console.log("Movies", ...result.results);
+        // console.log("Movies", ...result.results);
       }, setLoading(false))
       .catch((error) => console.error("Error:", error));
   };

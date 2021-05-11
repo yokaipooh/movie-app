@@ -11,6 +11,7 @@ import MovieDetail from "./views/MovieDetail/MovieDetail"
 import FavoritePage from "./views/FavoritePage/FavoritePage"
 import LastestTvShow from "./views/LastestTvShow/LastestTvShow"
 import Search from "./views/SearchPage/SearchPage"
+import UserData from './private_views/UserData/UserData'
 function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/favorite" component={Auth(FavoritePage, null)} />
           <Route exact path="/lastest_tv_show" component={Auth(LastestTvShow, null)} />
           <Route exact path="/search" component={Auth(Search, null)} />
+          <Route exact path="/user_data" component={Auth(UserData, null)} />
         </Switch>
       </div>
       <Footer />
